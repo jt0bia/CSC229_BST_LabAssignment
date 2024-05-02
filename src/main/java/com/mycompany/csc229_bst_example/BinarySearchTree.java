@@ -55,30 +55,71 @@ public class BinarySearchTree {
     }
 
     private void doInOrder(BstNode root) {
-
-        // ToDo 1: complete InOrder Traversal 
+        if (root!= null) {
+            doInOrder(root.getLeft());
+            System.out.print(root.getData() + " ");
+            doInOrder(root.getRight());
+        }
     }
-        public void preOrderTraversal() {
+
+    public void preOrderTraversal() {
         doPreOrder(this.root);
-        // ToDo 2: complete the pre-order travesal . 
+    }
+
+    // added private method for dePreOrder
+    private void doPreOrder(BstNode root) {
+        if (root!= null) {
+            System.out.print(root.getData() + " ");
+            doPreOrder(root.getLeft());
+            doPreOrder(root.getRight());
+        }
     }
 
     public Integer findHeight() {
-
-        // ToDo 3: Find the height of a tree
+        return calculateHeight(root);
     }
 
-    
+    // added private method for height calculation
+    private int calculateHeight(BstNode node) {
+        if (node == null)
+            return -1;
+        int leftHeight = calculateHeight(node.getLeft());
+        int rightHeight = calculateHeight(node.getRight());
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
 
     public int getDepth(BstNode node) {
-        //ToDo 4: complete getDepth of a node 
+        return calculateDepth(root, node, 0);
     }
+
+    // added private method for depth calculation
+    private int calculateDepth(BstNode current, BstNode target, int depth) {
+        if (current == null)
+            return -1;
+        if (current == target)
+            return depth;
+        int leftDepth = calculateDepth(current.getLeft(), target, depth + 1);
+        if (leftDepth != -1)
+            return leftDepth;
+        return calculateDepth(current.getRight(), target, depth + 1);
+    }
+
     
    public void print() {
        System.out.println("\n==== BST Print ===== \n");
-        print("", root, false);
-        // ToDo 5: complete the print of the BST
-    }
+       printTree(root, ""); // print changed to printTree()
+   }
+
+   // method to print the binary tree
+   private void printTree(BstNode node, String prefix) {
+        if (node != null) {
+            System.out.println(prefix + "|__ " + node.getData());
+            printTree(node.getLeft(), prefix + "|   ");
+            printTree(node.getRight(), prefix + "    ");
+        }
+   }
+
+
 
 
 }
